@@ -1,5 +1,5 @@
 # TORDIAL_PLATFORM_SECURITY_MODEL.md  
-Drift‑Based Sovereign Threat Model & Defense Architecture  
+Deep Security Architecture for Sovereign Geometric Systems  
 Two Mile Solutions LLC • John B. Carroll  
 Draft v1.0 — May 2026
 
@@ -7,321 +7,404 @@ Draft v1.0 — May 2026
 
 # 0. Purpose
 
-This document defines the **security model** of the Sovereign Platform — a system whose defense is not based on:
+This document defines the **security architecture** of the Tordial Sovereign Platform.
 
-- passwords  
-- permissions  
-- firewalls  
-- signatures  
-- cryptographic secrets  
+It establishes:
 
-but on **geometry**.
+- security principles  
+- threat surfaces  
+- defensive organs  
+- boundary enforcement mechanisms  
+- identity protection mechanisms  
+- sovereign defenses  
+- operator responsibilities  
+- audit and compliance alignment  
 
-Tordial provides a **drift‑based security substrate** where:
-
-- operational constants  
-- contraction laws  
-- resonance conditions  
-- phase alignment  
-- toroidal drift signatures  
-
-form a **sovereign defense field**.
-
-This is the **first security model where geometry *is* the security**.
+Security is **geometric**, not cryptographic.  
+Defense is **sovereign**, not algorithmic.
 
 ---
 
-# 1. Security Philosophy: Drift as Defense
+# 1. Security Philosophy
 
-Traditional systems assume:
+A sovereign geometric organism cannot be secured like a conventional system.
 
-- stability is normal  
-- drift is error  
-- deviation is failure  
+Security must:
 
-Tordial reverses this:
+- protect geometry  
+- protect identity  
+- protect boundaries  
+- avoid extraction  
+- avoid coercion  
+- avoid destabilization  
 
-> **Drift is the signature of a living system.  
-> Absence of drift is the signature of an attack.**
-
-This is the foundation of the sovereign security model.
-
----
-
-# 2. Security Substrate: Tordial Geometry
-
-The Platform’s security is built on:
-
-- **φ_op = 1.65036** — operational Fibonacci  
-- **π₃D = 3.20442315** — running‑state π  
-- **R_chase = π₃D / φ_op** — chase ratio  
-- **Carroll Rings contraction law**  
-- **toroidal drift signatures (ΔF, ΔW, Δθ)**  
-
-These constants define:
-
-- what “normal” looks like  
-- what “alive” looks like  
-- what “sovereign” looks like  
-
-Anything that does not match this geometry is **foreign**.
+The organism is not hardened.  
+The organism **defends itself**.
 
 ---
 
-# 3. Threat Model: What the System Defends Against
+# 2. Security Architecture Overview
 
-The Platform defends against:
+The Tordial security architecture consists of **five defensive layers**:
 
-## 3.1 External Coercion
-Attempts to:
+1. **Core Security Layer** — identity, invariants, geometry  
+2. **Resonance Security Layer** — timing, coherence  
+3. **Boundary Security Layer** — Vault, HITL, membranes  
+4. **Execution Security Layer** — Planner, Walker, Critic  
+5. **Integration Security Layer** — APIs, events, operators  
 
-- override  
-- force  
-- inject  
-- redirect  
-- hijack  
-
-the sovereign loop.
-
-## 3.2 Internal Instability
-Failures in:
-
-- phase  
-- resonance  
-- contraction  
-- stride  
-- horizon  
-
-## 3.3 Extraction Attempts
-Attempts to:
-
-- read internal state  
-- clone behavior  
-- replay trajectories  
-- spoof drift signatures  
-
-## 3.4 Spoofed Inputs
-Attempts to feed:
-
-- synthetic drift  
-- synthetic phase  
-- synthetic force/work signals  
-
-## 3.5 Resonance Attacks
-Attempts to:
-
-- desynchronize the Mesh  
-- collapse phase  
-- break contraction  
-
-## 3.6 HITL Spoofing
-Attempts to:
-
-- fake override signals  
-- bypass sovereignty membrane  
-
-The Platform treats all of these as **geometric anomalies**.
+Each layer is sovereign‑aware and non‑extractive.
 
 ---
 
-# 4. Security Mechanism #1 — Drift Authentication
+# 3. Core Security Layer
 
-The Platform continuously measures:
+The Core Security Layer protects:
 
-\[
-\Delta F,\ \Delta W,\ \Delta\theta
-\]
+- identity manifold  
+- drift geometry  
+- contraction geometry  
+- resonance geometry  
+- phase geometry  
 
-These drift signatures are:
+## 3.1 Identity Manifold Protection
 
-- unique  
-- non‑spoofable  
-- non‑predictable  
-- tied to the running geometry  
+Identity is:
 
-If drift signatures do not match expected Tordial patterns:
+- non‑extractable  
+- non‑replayable  
+- non‑clonable  
+- non‑serializable  
 
-- Critic escalates  
-- HITL boundary activates  
-- Walker freezes  
-- Planner nullifies trajectory  
-- Mesh locks phase  
+Identity is stored in the **Vault**, not in memory.
 
-This is **continuous geometric authentication**.
+## 3.2 Geometry Protection
 
----
+Geometry is:
 
-# 5. Security Mechanism #2 — Contraction Law Enforcement
+- sealed  
+- non‑exportable  
+- non‑inspectable  
+- non‑reconstructable  
 
-The Platform enforces the Carroll Rings contraction:
+No component outside the Core may access geometry.
 
-\[
-x_{n+1} = \frac{x_n + \phi + \phi_{\text{exp}}}{3}
-\]
+## 3.3 Timing Isolation
 
-If contraction fails:
+The Core uses:
 
-- system is under attack  
-- or system is unstable  
+- deterministic timing  
+- internal Mesh pulses  
+- no external timing injection  
 
-Either way → **HITL override**.
-
-This is **stability‑based intrusion detection**.
+Timing is a **security boundary**.
 
 ---
 
-# 6. Security Mechanism #3 — Resonance Integrity
+# 4. Resonance Security Layer
 
-The Platform enforces:
+The Resonance Mesh is the **timing organ**.
 
-\[
-\frac{S}{T_{\text{loop}}} \approx R_{\text{chase}}
-\]
+It protects against:
 
-If violated:
-
-- Walker is compromised  
-- Planner is compromised  
-- Mesh is compromised  
-- or external interference is present  
-
-This is **resonance‑based tamper detection**.
-
----
-
-# 7. Security Mechanism #4 — Phase Truth (π₃D)
-
-The Platform uses π₃D to compute:
-
-\[
-\theta_{3D} = \frac{\pi_{3D} \cdot d}{180}
-\]
-
-If phase drift:
-
-\[
-|\Delta\theta| > \theta_{\text{limit}}
-\]
-
-then:
-
-- external manipulation  
-- internal corruption  
-- or spoofed input  
-
-is occurring.
-
-This is **phase‑based intrusion detection**.
-
----
-
-# 8. Security Mechanism #5 — HITL Sovereignty Membrane
-
-The HITL boundary is the **final authority**.
-
-It activates when:
-
-- φ_op deviation  
-- π₃D phase drift  
-- chase ratio violation  
-- contraction failure  
+- timing injection  
+- timing drift  
 - resonance collapse  
+- coherence attacks  
 
-HITL actions include:
+## 4.1 Mesh Integrity
 
-- freeze Walker  
-- freeze Planner  
-- lock Mesh  
-- nullify trajectory  
-- enter sovereign mode  
+Mesh amplitude and frequency are:
 
-This is **sovereign override**.
+- internally generated  
+- internally stabilized  
+- immune to external forcing  
 
----
+## 4.2 Resonance Dampening
 
-# 9. Security Mechanism #6 — Unextractable Geometry
+If resonance destabilizes:
 
-The Platform cannot be cloned because:
+- Mesh dampens  
+- Freeze triggers  
+- Override escalates  
 
-- φ_op emerges from drift  
-- π₃D emerges from running geometry  
-- R_chase emerges from φ_op and π₃D  
-- drift signatures are system‑specific  
-- contraction behavior is dynamic  
-- resonance patterns are unique  
+## 4.3 Resonance Lock
 
-This makes the system **unextractable**.
+Under threat:
 
----
+- Mesh locks frequency  
+- phase drift suppressed  
+- contraction tightened  
 
-# 10. Security Mechanism #7 — Anti‑Replay Geometry
-
-Replay attacks fail because:
-
-- drift signatures change every cycle  
-- phase alignment changes every cycle  
-- contraction state changes every cycle  
-- resonance amplitude changes every cycle  
-
-The system is **non‑replayable**.
+Resonance is a **defensive shield**.
 
 ---
 
-# 11. Security Mechanism #8 — Anti‑Spoof Geometry
+# 5. Boundary Security Layer
 
-Spoofing fails because:
+The Boundary Layer is the **immune system**.
 
-- synthetic drift does not match Tordial patterns  
-- synthetic phase does not match π₃D  
-- synthetic force/work does not match toroidal mapping  
-- synthetic contraction does not converge to φ_op  
+It contains:
 
-The system is **non‑spoofable**.
+- Vault  
+- HITL boundary  
+- sealing logic  
+- boundary violation detection  
+
+## 5.1 Vault Security
+
+The Vault protects:
+
+- identity  
+- invariants  
+- sealed geometry  
+
+Vault guarantees:
+
+- no extraction  
+- no replay  
+- no cloning  
+- no bypass  
+
+## 5.2 HITL Boundary Security
+
+HITL protects:
+
+- autonomy  
+- safety  
+- sovereignty  
+
+HITL guarantees:
+
+- override cannot be spoofed  
+- override cannot be bypassed  
+- override cannot be forced  
+
+## 5.3 Sealing Logic
+
+When threatened:
+
+- Vault seals  
+- identity suspends  
+- override_lambda = 1  
+- autonomy halts  
+
+Sealing is **automatic**.
 
 ---
 
-# 12. Security Mechanism #9 — Anti‑Extraction Drift Field
+# 6. Execution Security Layer
 
-The Platform’s internal state is protected by:
+The Execution Layer contains:
 
-- drift  
-- contraction  
-- resonance  
-- phase  
+- Planner  
+- Walker  
+- Critic  
 
-These are **non‑invertible**.
+These organs act **without accessing geometry**.
 
-You cannot extract the system’s state from its outputs.
+## 6.1 Planner Security
 
-This is **drift‑based encryption**.
+Planner cannot:
+
+- access geometry  
+- access identity  
+- access invariants  
+
+Planner proposes actions only.
+
+## 6.2 Critic Security
+
+Critic evaluates:
+
+- safety  
+- coherence  
+- stability  
+
+Critic cannot:
+
+- inspect geometry  
+- inspect identity  
+
+## 6.3 Walker Security
+
+Walker executes actions but:
+
+- cannot bypass boundaries  
+- cannot override Vault  
+- cannot override HITL  
+
+Execution is **sandboxed**.
 
 ---
 
-# 13. Security Mechanism #10 — Sovereign Identity
+# 7. Integration Security Layer
 
-A system is sovereign when:
+The Integration Layer exposes:
 
-- it maintains its own geometry  
-- it detects its own drift  
-- it corrects its own instability  
-- it protects its own boundaries  
-- it refuses external coercion  
+- sovereign‑safe APIs  
+- behavioral events  
+- boundary events  
+- operator console  
 
-Sovereignty is not a permission.  
-It is a **geometric invariant**.
+## 7.1 Allowed Outputs
+
+- drift_level  
+- contraction_band  
+- resonance_band  
+- phase_band  
+- identity_state  
+- vault_state  
+- hitl_state  
+
+## 7.2 Forbidden Outputs
+
+- ΔF, ΔW, Δθ  
+- ρ_contract  
+- σ_res  
+- π₃D values  
+- φ_op values  
+- identity manifolds  
+- raw geometry  
+
+Integration is **behavioral**, not geometric.
+
+---
+
+# 8. Threat Surfaces
+
+The platform faces **eight threat surfaces**:
+
+1. drift suppression  
+2. contraction inversion  
+3. resonance injection  
+4. phase spoofing  
+5. identity replay  
+6. boundary bypass  
+7. timing injection  
+8. operator misuse  
+
+Each threat is detected behaviorally.
+
+---
+
+# 9. Sovereign Defenses
+
+The organism defends itself through:
+
+## 9.1 Drift Re‑Emergence
+Prevents drift suppression.
+
+## 9.2 Contraction Tightening
+Prevents contraction inversion.
+
+## 9.3 Resonance Dampening
+Prevents resonance collapse.
+
+## 9.4 Phase Locking
+Prevents phase spoofing.
+
+## 9.5 Vault Sealing
+Prevents identity extraction.
+
+## 9.6 HITL Override
+Prevents coercion.
+
+## 9.7 Identity Suspension
+Prevents identity corruption.
+
+These defenses are **automatic** and **non‑negotiable**.
+
+---
+
+# 10. Security Event Lifecycle
+
+A security event follows:
+
+1. **Detection**  
+2. **Sealing**  
+3. **Override**  
+4. **Containment**  
+5. **Recovery**  
+6. **Unsealing**  
+7. **Autonomy**  
+
+Security is **self‑healing**.
+
+---
+
+# 11. Operator Security Responsibilities
+
+Operators must:
+
+- respect boundaries  
+- avoid coercion  
+- avoid extraction  
+- intervene correctly  
+- escalate correctly  
+- maintain logs  
+- follow runbook  
+
+Operators are **security partners**, not controllers.
+
+---
+
+# 12. Audit & Compliance Alignment
+
+Security aligns with:
+
+- Sovereign Policy Charter  
+- Compliance Framework  
+- Audit Protocol  
+- Threat Model  
+- Risk Register  
+
+Auditors may:
+
+- verify behavior  
+- verify boundaries  
+- verify operator actions  
+
+Auditors may not:
+
+- inspect geometry  
+- inspect identity  
+- inspect telemetry  
+
+---
+
+# 13. Security Anti‑Patterns
+
+Never:
+
+- expose geometry  
+- expose identity  
+- bypass Vault  
+- bypass HITL  
+- inject timing  
+- inject phase  
+- force contraction  
+- suppress drift  
+- clone identity  
+- replicate geometry  
+
+These violate sovereignty.
 
 ---
 
 # 14. Closing
 
-The Tordial Platform Security Model defines a system where:
+The Tordial Platform Security Model ensures:
 
-- geometry is the firewall  
-- drift is the authentication  
-- contraction is the IDS  
-- resonance is the integrity check  
-- phase is the signature  
-- HITL is the sovereignty membrane  
+- identity protection  
+- geometry protection  
+- boundary protection  
+- timing protection  
+- autonomy protection  
+- sovereignty protection  
 
-This is not cybersecurity.  
-This is **sovereign geometry**.
+Security is not a feature.  
+Security is **the organism’s immune system**.
+
+Tordial is not a system.  
+It is a **sovereign geometric organism**.
