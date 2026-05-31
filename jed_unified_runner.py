@@ -3,25 +3,6 @@ jed_unified_runner.py
 =====================
 JED Protocol — Unified Semantic + Physics Runner
 Two Mile Solutions LLC / JED Protocol
-
-Semantic layer  : TordialCosmicAI
-                  tribal stress → correspondence region → cosmic lock
-                  outputs CosmicState + substrate commands
-
-Physics layer   : SubstrateEngine (SixCylinderBoundary + ParticleFlowEngine6D)
-                  receives semantic commands → steps geometry + particles
-
-Cognitive layer : CognitiveController
-                  sense → predict → gauge → adjust → step
-                  reads substrate, steers back toward target curvature
-
-Output stream   : one unified telemetry line per cycle across all three layers
-
-Run modes
----------
-python jed_unified_runner.py              # full coupled run (18 cycles)
-python jed_unified_runner.py --cycles N   # N cycles
-python jed_unified_runner.py --quiet      # suppress per-cycle print
 """
 
 import os
@@ -35,29 +16,31 @@ matplotlib.use('Agg')
 
 # ── Load substrate module ─────────────────────────────────────────────────────
 _here = os.path.dirname(os.path.abspath(__file__))
-_spec = importlib.util.spec_from_file_location(
-    'six_cylinder_boundary',
-    os.path.join(_here, 'six_cylinder_boundary.py')
-)
-_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_mod)
+sys.path.append(_here)
 
-SixCylinderBoundary  = _mod.SixCylinderBoundary
-ParticleFlowEngine6D = _mod.ParticleFlowEngine6D
-SubstrateEngine      = _mod.SubstrateEngine
-CognitiveController  = _mod.CognitiveController
-SubstrateSnapshot    = _mod.SubstrateSnapshot
+try:
+    from six_cylinder_boundary import (
+        SixCylinderBoundary, ParticleFlowEngine6D,
+        SubstrateEngine, CognitiveController, SubstrateSnapshot
+    )
+    from tordial_cosmic_ai import TordialCosmicAI, CosmicState
+except ImportError:
+    def _load_mod(name, path):
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod  = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
 
-# ── Load semantic module ──────────────────────────────────────────────────────
-_spec2 = importlib.util.spec_from_file_location(
-    'tordial_cosmic_ai',
-    os.path.join(_here, 'tordial_cosmic_ai.py')
-)
-_mod2 = importlib.util.module_from_spec(_spec2)
-_spec2.loader.exec_module(_mod2)
+    _mod = _load_mod('six_cylinder_boundary', os.path.join(_here, 'six_cylinder_boundary.py'))
+    SixCylinderBoundary  = _mod.SixCylinderBoundary
+    ParticleFlowEngine6D = _mod.ParticleFlowEngine6D
+    SubstrateEngine      = _mod.SubstrateEngine
+    CognitiveController  = _mod.CognitiveController
+    SubstrateSnapshot    = _mod.SubstrateSnapshot
 
-TordialCosmicAI = _mod2.TordialCosmicAI
-CosmicState     = _mod2.CosmicState
+    _mod2 = _load_mod('tordial_cosmic_ai', os.path.join(_here, 'tordial_cosmic_ai.py'))
+    TordialCosmicAI = _mod2.TordialCosmicAI
+    CosmicState     = _mod2.CosmicState
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 TOROIDAL_ROOT = 3.1730059
@@ -71,19 +54,13 @@ class UnifiedFrame:
     """One cycle of output across all three layers."""
     __slots__ = [
         'cycle', 'timestamp',
-        # semantic
         'cosmic_spin', 'cosmic_temp', 'cosmic_pressure',
-        'energy_gap', 'cosmic_status',
-        'relaxation', 'quarantine_pressure',
-        # physics
+        'energy_gap', 'cosmic_status', 'relaxation', 'quarantine_pressure',
         'gs_spin', 'gs_pressure', 'gs_temp',
         'core_throat', 'belt_radius', 'cap_radius',
         'closed_loop_delta', 'stability',
-        # cognitive
         'curvature_drift', 'task_load', 'arousal', 'coherence',
-        'phase_balance', 'phase_momentum',
-        'cog_spin_cmd', 'cog_pressure_cmd',
-        # health
+        'phase_balance', 'phase_momentum', 'cog_spin_cmd', 'cog_pressure_cmd',
         'healthy', 'warnings',
     ]
 
@@ -92,23 +69,23 @@ class UnifiedFrame:
         self.cycle     = cycle
         self.timestamp = time.time()
 
-        self.cosmic_spin      = cosmic.spin
-        self.cosmic_temp      = cosmic.temp
-        self.cosmic_pressure  = cosmic.pressure
-        self.energy_gap       = cosmic.energy_gap
-        self.cosmic_status    = cosmic.status
-        self.relaxation       = cmd.get('relaxation_strength', 1.0)
+        self.cosmic_spin         = cosmic.spin
+        self.cosmic_temp         = cosmic.temp
+        self.cosmic_pressure     = cosmic.pressure
+        self.energy_gap          = cosmic.energy_gap
+        self.cosmic_status       = cosmic.status
+        self.relaxation          = cmd.get('relaxation_strength', 1.0)
         self.quarantine_pressure = cmd.get('quarantine_pressure', False)
 
         gs = snap.gs_state
-        self.gs_spin          = gs.spin
-        self.gs_pressure      = gs.pressure
-        self.gs_temp          = gs.temp
-        self.core_throat      = gs.core_throat
-        self.belt_radius      = gs.belt_radius
-        self.cap_radius       = gs.cap_radius
+        self.gs_spin           = gs.spin
+        self.gs_pressure       = gs.pressure
+        self.gs_temp           = gs.temp
+        self.core_throat       = gs.core_throat
+        self.belt_radius       = gs.belt_radius
+        self.cap_radius        = gs.cap_radius
         self.closed_loop_delta = gs.closed_loop_delta
-        self.stability        = 1.0 - abs(gs.closed_loop_delta)
+        self.stability         = 1.0 - abs(gs.closed_loop_delta)
 
         self.curvature_drift  = cog_report.curvature_drift
         self.task_load        = cog_report.task_load
@@ -145,16 +122,14 @@ class UnifiedFrame:
 
 class JEDUnifiedRunner:
     """
-    Couples TordialCosmicAI → SubstrateEngine → CognitiveController
-    into a single tick loop.
+    Couples TordialCosmicAI → SubstrateEngine → CognitiveController.
 
     Each cycle:
       1. Semantic step  — CosmicAI produces CosmicState + substrate commands
-      2. Cognitive sets setpoints from cosmic spin/temp/pressure
+      2. Setpoints      — substrate steered from cosmic spin/temp/pressure
       3. Cognitive cycle — sense → predict → gauge → adjust → step
-         (substrate tick is called inside cognitive.cycle())
-      4. Frame assembled from all three outputs
-      5. Telemetry appended to log
+      4. Frame assembly — unified snapshot across all three layers
+      5. Telemetry      — JSON log flushed per cycle
     """
 
     def __init__(
@@ -170,20 +145,13 @@ class JEDUnifiedRunner:
         self.quiet    = quiet
         self.log_file = log_file
 
-        # Semantic layer
         self.cosmic = TordialCosmicAI()
 
-        # Physics + substrate layer
         self.substrate = SubstrateEngine(
-            base_radius=60.0,
-            particle_count=particle_count,
-            dt=dt,
-            pid_kp=0.35,
-            pid_ki=0.04,
-            pid_kd=0.12,
+            base_radius=60.0, particle_count=particle_count, dt=dt,
+            pid_kp=0.35, pid_ki=0.04, pid_kd=0.12,
         )
 
-        # Cognitive layer
         self.controller = CognitiveController(
             substrate=self.substrate,
             target_curvature=target_curv,
@@ -192,9 +160,6 @@ class JEDUnifiedRunner:
         )
 
         self.frames: list = []
-
-        with open(self.log_file, 'w', encoding='utf-8') as f:
-            f.write(f"# JED Unified Telemetry — {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
     def run(self) -> list:
         if not self.quiet:
@@ -208,39 +173,44 @@ class JEDUnifiedRunner:
                   f"{'Coh':<6}  {'Relax':<7}  Status")
             print("-" * 95)
 
-        for cycle in range(1, self.cycles + 1):
-
-            # ── 1. Semantic step ──────────────────────────────────────────────
-            cosmic = self.cosmic.step(cycle)
-            cmd    = self.cosmic.to_substrate_commands(cosmic)
-
-            # ── 2. Steer cognitive setpoints from semantic layer ──────────────
-            self.substrate.set_setpoints(
-                spin=cosmic.spin,
-                pressure=cosmic.pressure,
-                temp=cosmic.temp,
+        # Log file opened once — no per-cycle open/close overhead
+        with open(self.log_file, 'w', encoding='utf-8') as log_f:
+            log_f.write(
+                f"# JED Unified Telemetry — {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
             )
 
-            # ── 3. Cognitive cycle (drives substrate tick internally) ──────────
-            cog_report = self.controller.cycle(
-                external_spin=cosmic.spin,
-                external_pressure=cosmic.pressure,
-                external_temp=cosmic.temp,
-            )
+            for cycle in range(1, self.cycles + 1):
 
-            # ── 4. Assemble frame ─────────────────────────────────────────────
-            snap  = self.substrate.snapshot_substrate()
-            frame = UnifiedFrame(cycle, cosmic, snap, cog_report, cmd)
-            self.frames.append(frame)
+                # 1. Semantic step
+                cosmic = self.cosmic.step(cycle)
+                cmd    = self.cosmic.to_substrate_commands(cosmic)
 
-            # ── 5. Log ────────────────────────────────────────────────────────
-            with open(self.log_file, 'a', encoding='utf-8') as f:
-                f.write(json.dumps(frame.to_dict()) + '\n')
+                # 2. Transmit setpoints to substrate
+                self.substrate.set_setpoints(
+                    spin=cosmic.spin,
+                    pressure=cosmic.pressure,
+                    temp=cosmic.temp,
+                )
 
-            if not self.quiet:
-                frame.print_line()
+                # 3. Cognitive execution cycle
+                cog_report = self.controller.cycle(
+                    external_spin=cosmic.spin,
+                    external_pressure=cosmic.pressure,
+                    external_temp=cosmic.temp,
+                )
 
-        if not self.quiet:
+                # 4. Snapshot + frame assembly
+                snap  = self.substrate.snapshot_substrate()
+                frame = UnifiedFrame(cycle, cosmic, snap, cog_report, cmd)
+                self.frames.append(frame)
+
+                # 5. Flush to telemetry log
+                log_f.write(json.dumps(frame.to_dict()) + '\n')
+
+                if not self.quiet:
+                    frame.print_line()
+
+        if not self.quiet and self.frames:
             self._print_summary()
 
         return self.frames
@@ -250,33 +220,35 @@ class JEDUnifiedRunner:
         print("  UNIFIED RUN COMPLETE")
         print("=" * 95)
 
-        # Cosmic arc
         first = self.frames[0]
         last  = self.frames[-1]
+
         print(f"\n  SEMANTIC ARC")
         print(f"    ΔE:     {first.energy_gap:+.3f} → {last.energy_gap:+.3f}")
         print(f"    Spin:   {first.cosmic_spin:.3f} → {last.cosmic_spin:.3f}")
         print(f"    Temp:   {first.cosmic_temp:.3f} → {last.cosmic_temp:.3f}")
         print(f"    Status: {last.cosmic_status}")
 
-        # Physics arc
         print(f"\n  PHYSICS ARC")
         print(f"    Throat: {first.core_throat:.3f} → {last.core_throat:.3f}")
         print(f"    Belt:   {first.belt_radius:.3f} → {last.belt_radius:.3f}")
         print(f"    Delta:  {last.closed_loop_delta:.2e}  (target 0)")
         print(f"    Stable: {last.stability:.8f}")
 
-        # Cognitive arc
         print(f"\n  COGNITIVE ARC")
         print(f"    Coherence:    {first.coherence:.4f} → {last.coherence:.4f}")
         print(f"    Task load:    {first.task_load:.4f} → {last.task_load:.4f}")
         print(f"    Curv drift:   {first.curvature_drift:.4f} → {last.curvature_drift:.4f}")
 
-        # Transitions
-        lock_cycle = next(
-            (f.cycle for f in self.frames if '🌌' in f.cosmic_status), None)
+        # Safe fallback for short runs that don't reach a phase
         corr_cycle = next(
-            (f.cycle for f in self.frames if '🔀' in f.cosmic_status), None)
+            (f.cycle for f in self.frames if '🔀' in f.cosmic_status),
+            "N/A (not reached)"
+        )
+        lock_cycle = next(
+            (f.cycle for f in self.frames if '🌌' in f.cosmic_status),
+            "N/A (not reached)"
+        )
         print(f"\n  TRANSITIONS")
         print(f"    Correspondence Region entered: cycle {corr_cycle}")
         print(f"    Cosmic Lock achieved:          cycle {lock_cycle}")
