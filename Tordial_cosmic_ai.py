@@ -35,9 +35,9 @@ class TordialCosmicAI:
     """
 
     def __init__(self):
-        self.history:      List[CosmicState] = []
-        self.target_spin   = 3.8
-        self.target_temp   = 0.18
+        self.history:    List[CosmicState] = []
+        self.target_spin = 3.8
+        self.target_temp = 0.18
 
     def _belt_radius(self, spin: float, pressure: float) -> float:
         core_curv = (TOROIDAL_ROOT / math.pi) * spin * SHADOW
@@ -102,7 +102,6 @@ class TordialCosmicAI:
     def to_substrate_commands(self, state: CosmicState) -> dict:
         """
         Translate a CosmicState into SubstrateEngine.closed_loop_tick() kwargs.
-        The semantic layer drives the physics layer.
 
         Mapping
         -------
@@ -114,10 +113,9 @@ class TordialCosmicAI:
         """
         relaxation = 1.0
         if state.energy_gap > 0:
-            # Stress exceeds order — ease the containment, let decay burn off
             relaxation = max(0.3, 1.0 - state.energy_gap * 0.15)
 
-        quarantine_pressure = state.status.startswith("🔥")  # TRIBAL STRESS DOMINANT
+        quarantine_pressure = state.status.startswith("🔥")
 
         return dict(
             spin                = state.spin,
